@@ -119,7 +119,7 @@ if(isset($_POST['draft'])){
 
 
                     <div class="input-field">
-                        <label for="">Product Price </label>
+                        <label for="">Product Price Per Kg </label>
                         <!-- <select name="" id="">
 <option value="">kg</option>
 <option value="">GRAM</option>
@@ -127,6 +127,17 @@ if(isset($_POST['draft'])){
  </select> -->
                         <input type="text" name="price" maxlength="26" placeholder="add products price" required>
                     </div>
+
+
+                    <div class="input-field">
+                        <label for="">Available Stock </label>
+                        <input type="number" name="stock" maxlength="26" placeholder="add total products available" required>
+                    </div>
+
+
+
+
+
 
                     <div class="input-field">
                         <label for="">product type</label>

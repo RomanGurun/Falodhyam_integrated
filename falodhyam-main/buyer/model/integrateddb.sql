@@ -121,3 +121,6 @@ INSERT INTO `products` (`id`, `name`, `price`, `image`, `product_detail`, `statu
 
 -- We have rename the s-profile attributes to s-pan_CARD OF seller table
 ALTER TABLE `seller` CHANGE `s-profile` `s-pan_card` VARCHAR(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
+
+-- JUST ADDED AVAILABLE STOCKS ON A PRODUCTS TABLE
+ALTER TABLE `products` ADD `available_stock` INT(7) NOT NULL AFTER `type`;
