@@ -12,6 +12,7 @@ if(isset($_POST['publish'])){
     $productprice = $_POST['price'];
     $productdetail = $_POST['detail'];
     $producttype=$_POST['producttype'];
+    $productstock=$_POST['stock'];
     $image = $_FILES['image']['name'];
     $image_tmp_name = $_FILES['image']['tmp_name'];
     $image_folder = "img/".$image;
@@ -21,7 +22,7 @@ if(isset($_POST['publish'])){
 
     
     // Prepare the SQL statement with placeholders
-    $stmt = $conn->prepare("INSERT INTO `products` (`name`, `price`, `image`, `product_detail`, `status`,`s-id`,`type`) VALUES (?, ?, ?, ?, ?,?,?)");
+    $stmt = $conn->prepare("INSERT INTO `products` (`name`, `price`, `image`, `product_detail`, `status`,`s-id`,`type`,`available_stock`) VALUES (?, ?, ?, ?, ?,?,?,?)");
 
     // Bind parameters to the placeholders and execute the statement
     $stmt->bindParam(1, $productname);
@@ -30,8 +31,8 @@ if(isset($_POST['publish'])){
     $stmt->bindParam(4, $productdetail);
     $stmt->bindParam(5, $status);
     $stmt->bindParam(6,$sellerid);
-    $stmt->bindParam(7,$producttype);
-
+    $stmt->bindParam(7,$producttype); 
+    $stmt->bindParam(8,$productstock);
     // Execute the prepared statement
        if ($stmt->execute()) {
         // Upload the image file to the specified folder
@@ -51,13 +52,14 @@ if(isset($_POST['draft'])){
     $productname = $_POST['name'];
     $productprice = $_POST['price'];
     $productdetail = $_POST['detail'];
+    $productstock=$_POST['stock'];
     $image = $_FILES['image']['name'];
     $image_tmp_name = $_FILES['image']['tmp_name'];
     $image_folder = "img/".$image;
     $status = 'deactive';
 
     // Prepare the SQL statement with placeholders
-    $stmt = $conn->prepare("INSERT INTO `products` (`name`, `price`, `image`, `product_detail`, `status`,`s-id`) VALUES (?, ?, ?, ?, ?,?)");
+    $stmt = $conn->prepare("INSERT INTO `products` (`name`, `price`, `image`, `product_detail`, `status`,`s-id`,`available_stock`) VALUES (?, ?, ?, ?, ?,?,?,?)");
 
     // Bind parameters to the placeholders and execute the statement
     $stmt->bindParam(1, $productname);
@@ -66,6 +68,7 @@ if(isset($_POST['draft'])){
     $stmt->bindParam(4, $productdetail);
     $stmt->bindParam(5, $status);
     $stmt->bindParam(6,$sellerid);
+    $stmt->bindParam(7,$productstock);
        // Execute the prepared statement
        if ($stmt->execute()) {
         // Upload the image file to the specified folder
@@ -131,7 +134,7 @@ if(isset($_POST['draft'])){
 
                     <div class="input-field">
                         <label for="">Available Stock </label>
-                        <input type="number" name="stock" maxlength="26" placeholder="add total products available" required>
+                        <input type="number" name="stock" maxlength="5" placeholder="add total products available" required>
                     </div>
 
 

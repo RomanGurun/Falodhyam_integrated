@@ -4,6 +4,7 @@ session_start();
 
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
+    
 } else {
     $user_id = "";
 }
@@ -20,7 +21,8 @@ $user_query->execute([$user_id]);
 $user_details = $user_query->fetch(PDO::FETCH_ASSOC);
 
 // When we place an order 
-if (isset($_POST['place_order'])) {
+if (isset($_POST['place_order']))
+{
     $name = $user_details['name'];
     $phone = $user_details['phone'];
     $email = $user_details['email'];
@@ -34,6 +36,60 @@ if (isset($_POST['place_order'])) {
         $address = filter_var($address, FILTER_SANITIZE_STRIPPED);
         $house_number = filter_var($_POST['house_number'], FILTER_SANITIZE_STRIPPED);
     }
+
+
+        // ============================ ORDER QUANTITY is DECREASE AND CHECKED HERE  ==========================================
+        ///==========================================PHP CODE ====================================================================== 
+
+        $buyer_stock = $con->prepare("SELECT * FROM `orders` WHERE product_id=?");
+        $buyer_stock->execute([$_GET['get_id']]);
+
+            while ($fetch_stock = $buyer_stock->fetch(PDO::FETCH_ASSOC)) {
+        $buyerorder_qty=$fetch_stock['qty'];
+        echo"The sellerorde qty is ",$buyerorder_qty;       
+
+$seller_stock=$con->prepare("SELECT * FROM `products` WHERE id =?" );
+$seller_stock->execute([$_GET['get_id']]);
+
+while ($fetch_stock222 = $seller_stock->fetch(PDO::FETCH_ASSOC)) {
+       
+$sellerorder_qty=$fetch_stock222['available_stock'];
+echo"The sellerorde qty is ",$sellerorder_qty;       
+if($buyerorder_qty>$sellerorder_qty){
+echo '<script>alert("Products is out of stocks.");  </script>';
+
+
+}else{
+
+
+$realavailable_stock=$sellerorder_qty-$buyerorder_qty;
+
+
+$updateproduct = $con->prepare("UPDATE `products` SET `available_stock`=? WHERE `products`.`id` = ?");
+
+$updateproduct->execute([$realavailable_stock,$_GET['get_id']]);
+
+
+}
+
+
+
+
+            }
+
+        }
+     
+// ============================ ORDER QUANTITY is DECREASE AND CHECKED HERE  ==========================================
+        ///==========================================PHP CODE ====================================================================== 
+
+
+
+
+
+
+
+
+
 
     // Select cart items with parameters
     $verify_cart = $con->prepare("SELECT * FROM `cart` WHERE user_id = ?");
